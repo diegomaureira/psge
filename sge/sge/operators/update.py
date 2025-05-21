@@ -43,6 +43,6 @@ def independent_update(best, lf):
             elif counter == 0:
                 gram[i][j] = max(old_prob - lf * old_prob, 0.0)
 
-        gram[i,:] = np.clip(gram[i,:], 0, np.infty) / np.sum(np.clip(gram[i,:], 0, np.infty))
+        gram[i,:] = np.clip(gram[i,:], 0, np.inf) / np.sum(np.clip(gram[i,:], 0, np.inf))
     # update non_recursive options
     # grammar.compute_non_recursive_options()
