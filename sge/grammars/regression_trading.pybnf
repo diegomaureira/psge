@@ -1,0 +1,47 @@
+<program> ::= from backtesting import Backtest, Strategy{::}import ta{::}class MyStrategy(Strategy):{::}def init(self):{::}<indicators-init>{::}self.close = pd.Series(self.data.Close){::}self.open = pd.Series(self.data.Open){::}self.high = pd.Series(self.data.High){::}self.low = pd.Series(self.data.Low){::}self.volume = pd.Series(self.data.Volume){::}self.tp = 0{::}self.sl = 0{::}self.entry_price = 0{::}def next(self):{::}<next-logic>
+
+<indicators-init> ::= <indicator-init> | <indicator-init> {::} <indicators-init>
+
+<indicator-init> ::= self.<var-name> " = self.I(ta." <ta-module> "." <indicator> "Indicator, " <data-fields> ", window=" <number> ")"
+
+<var-name> ::= /[a-zA-Z_][a-zA-Z0-9_]*/
+
+<ta-indicator> ::= volatility.<volatility-indicator> | momentum.<momentum-indicator> | trend.<trend-indicator> | others.<other-indicator>
+
+<momentum-indicator> ::= awesome_oscillator | kama | ppo | ppo_hist | ppo_signal | pvo | pvo_hist | pvo_signal | roc | rsi | stoch | stoch_signal | stochrsi | stochrsi_d | stochrsi_k | tsi | ultimate_oscillator | williams_r
+
+<volatility-indicator> ::= average_true_range | bollinger_mavg | bollinger_hband | bollinger_lband | donchian_channel_hband | donchian_channel_lband | donchian_channel_mband | donchian_channel_wband | donchian_channel_pband | donchian_channel_hband_indicator | donchian_channel_lband_indicator | donchian_channel_mband_indicator | donchian_channel_wband_indicator |
+
+<trend-indicator> ::= adx | adx_pos | adx_neg | aroon_down | aroon_up | cci | cci_signal | cci_hist | dpo | ema | ichimoku_a | ichimoku_b | ichimoku_base_line | ichimoku_conversion_line | ichimoku_lagging_span | ichimoku_leading_span_1 | ichimoku_leading_span_2 | ichimoku_signal
+
+<other-indicator> ::= macd | macd_signal | macd_diff
+
+<data-fields> ::= <data-field> | <data-field> ", " <data-fields>
+
+<data-field> ::= "self.data.Close" | "self.data.High" | "self.data.Low"
+
+<number> ::= /[0-9]+/
+
+<next-logic> ::= <logic-statement> | <logic-statement> {::} <next-logic>
+
+<logic-statement> ::= <if-statement> | <assignment> | <method-call>
+
+<if-statement> ::= "if " <condition> ":" {::} <logic-block> [ "else:" {::} <logic-block> ]
+
+<logic-block> ::= <logic-statement> | <logic-statement> {::} <logic-block>
+
+<condition> ::= <expr> <comp-op> <expr>
+
+<comp-op> ::= "==" | "!=" | "<" | "<=" | ">" | ">="
+
+<expr> ::= <var-name> | <number> | <expr> <arith-op> <expr> | "(" <expr> ")"
+
+<arith-op> ::= "+" | "-" | "*" | "/" | "**"
+
+<assignment> ::= <var-name> " = " <expr>
+
+<method-call> ::= "self.buy(" <params> ")" | "self.position.close()" | "self.sell()"
+
+<params> ::= <param> | <param> ", " <params>
+
+<param> ::= <var-name> "=" <expr>
